@@ -264,5 +264,5 @@ Achtung: RDF/XML, MARCXML... sind nur XML-Verpackungen!
 - PICA-Formate entschlüsseln mit Avram und PicaEditor (2020)
   <https://doi.org/10.5446/48737>
 
-<!-- Diese Folien: <https://doi.org/10.5281/zenodo.10971391> -->
+- Diese Folien: <https://jakobib.github.io/kim2024-avram/>
 
