@@ -1,0 +1,8 @@
+format:
+  revealjs:
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: vzglogo.png
+    footer: "[DINI-AG KIM Workshop 2014](https://wiki.dnb.de/display/DINIAGKIM/KIM+Workshop+2024)"

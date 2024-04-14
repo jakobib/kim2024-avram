@@ -1,0 +1,268 @@
+---
+title: "Fünf Jahre Avram"
+subtitle: "zur Beschreibung und Validierung von Bibliotheksdaten"
+date: 2024-04-15
+author: Jakob Voß
+---
+ 
+## Warum Avram?
+
+- Beschreibung von Katalogformaten nicht **maschinenlesbar**:
+
+    - [MARC21](https://www.loc.gov/marc/) (Bibliographic, Authority...)
+    - [K10plus PICA](https://wiki.k10plus.de/display/K10PLUS/K10plus+Format-Dokumentation)
+    - [GND-PICA](https://wiki.dnb.de/pages/viewpage.action?pageId=50759357)
+    - ...
+
+::: {.incremental}
+
+- Lokale Anwendungsprofile von Katalogformaten
+
+- Prüfung von Daten schwer reproduzierbar
+
+- Umständliches Nachschlagen in PDF/HTML-Dokumentation
+
+:::
+
+## Wie kam es zu Avram?
+
+::: {.incremental}
+
+- Vorarbeiten von Péter Király mit dem *Metadata Quality Assurance Framework* (ab 2015) 
+
+- Statistik von MARC21-Feldern (Herbst 2017, Karen Coyle)
+
+- Wunsch nach maschinenlesbarer Liste (Januar 2018)
+
+- Umsetzung von Validatoren in Java und Perl für MARC21 und PICA
+  (Péter, ich und Johann Rolschewski)
+
+- Avram Spezifikation 0.1.0 (Februar 2018)
+
+:::
+
+## Henriette Avram
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](henriette-avram.jpg)
+:::
+
+::: {.column width="60%"}
+- 1919 New York -- 2006 Miami
+- 1941-1951 Heirat und Kinder
+- 1951 Studium der Mathematik
+- 1952-1959 Arbeit bei der NSA
+- 1965 Leiterin des Project MARC
+- bis 1992 and der LoC
+:::
+
+::::
+
+# Die Avram Spezifikation
+
+## Aufgaben einer Schema-Sprache
+
+- Formale Schemas definieren Formate
+
+- Gleiche Validierung mit verschiedenen Programmen
+
+- Dokumentation
+
+## Aufgaben einer Schema-Sprache
+
+![](abstraction.svg)
+
+## Informationen in Avram-Schemas
+
+::: {.incremental}
+
+- Welche **Felder** gibt es?
+
+- Welche **Unterfelder** gibt es?
+
+- Welche davon sind **optional** und **wiederholbar**?
+
+- Metadaten (Namen, Beschreibung, Änderungsdatum, Links auf Dokumentation...)
+
+:::
+
+## Beispiel (aus MARC21)
+
+~~~json
+{
+  "family": "marc",
+  "fields": {
+   "245": {
+      "tag": "245",
+      "label": "Title Statement",
+      "repeatable": false,
+      "url": "https://www.loc.gov/marc/bibliographic/bd245.html",
+      "subfields": {
+        "a": {
+          "label": "Title",
+          "repeatable": false,
+          "required": true
+        },
+        "b": {
+          "label": "Remainder of title",
+          ...
+~~~
+
+## Validierung von Feldinhalten
+
+- Codeliste erlaubter Werte (z.B. ISO-Sprachcodes)
+
+- Regulärer Ausdruck
+
+- Positionen
+
+## Beispiel-Feld (aus MARC21)
+
+~~~{.json}
+{
+  "tag": "033"
+  "label": "Date/Time and Place of an Event",
+  "url": "https://www.loc.gov/marc/bibliographic/bd033.html",
+  "subfields": {
+    "a": {
+      "label": "Formatted date/time",
+      "repeatable": true,
+      "pattern": "^[0-9-]{8}([0-9]{4}([+-][0-9]{4})?)?$"
+    },
+    "2": {
+      "label": "Source of term",
+      "repeatable": true,
+      "codes": "https://www.loc.gov/standards/sourcelist/subject.html",
+~~~
+
+## Zusätzliche Möglichkeiten
+
+- Markierung von Elementen als `deprecated`
+
+- Record Types
+
+- Erweiterung durch Verweis auf externe Regeln
+
+- Statistik: Wie oft kommen (Unter)felder vor?
+
+# Avram in der Praxis
+
+## Vorhandene Avram-Schemas
+
+- MARC21 via <https://github.com/timathom/marc-schema/>
+- MARC21 via <https://github.com/sul-dlss-labs/marctable>
+- MARC21 via [QA Catalogue](https://github.com/pkiraly/qa-catalogue)
+- UNIMARC erstellt per Hand (für QA Catalogue)
+- PICA+ (K10plus) via [K10plus-Formatdatenbank](https://format.k10plus.de/k10plushelp.pl)
+- Anwendungsprofile
+
+## QA Catalogue
+
+- Erstes Validierungstool
+
+- Primär für MARC21, inzwischen auch PICA und UNIMARC
+
+- Webinterface für Ergebnisse
+
+---
+
+![](qa-catalogue.png)
+
+## Catmandu-Module
+
+- Kommandozeilen-Werkzeug zur Datenkonvertierung
+
+- [Catmandu::Validator::MARC](https://metacpan.org/pod/Catmandu::Validator::MARC)
+
+- [Catmandu::Validator::PICA](https://metacpan.org/pod/Catmandu::Validator::PICA)
+
+- [PICA::Data](https://metacpan.org/pod/PICA::Data)
+
+<!-- TODO: Beispiel -->
+
+## Avram-JS
+
+- Referenzimplementierung (alle Features)
+
+- Validierung von MARC, PICA und CSV
+
+~~~sh
+npm install avram
+~~~
+
+<!-- TODO: Beispiel -->
+
+## PicaEditor
+
+- Anzeige von PICA-Datensätzen mit
+  Syntax-Highlighting und Kontexthilfe
+
+- Eher Proof of Concept
+
+- Problem: Pica3 vs. PICA+
+
+<!-- TODO: screenshot -->
+
+# Verwandte Methoden
+
+## Was kann Avram nicht?
+
+- Kaffee kochen
+
+- Erraten was gemeint ist
+
+. . .
+
+- Datentypen (Zahl, Datum...)
+
+- Wenn-dann-Regeln
+
+## Alternativen zu Avram
+
+- JSON $\Rightarrow$ JSON Schema
+
+- XML $\Rightarrow$ XML Schema, Schematron, RelaxNG
+
+- RDF $\Rightarrow$ SHACL, ShEx
+
+- CSV $\Rightarrow$ Data Package Table Scheme, SQL...
+
+. . .
+
+Achtung: RDF/XML, MARCXML... sind nur XML-Verpackungen!
+
+## Meist nicht so gute Alternativen zu Avram
+
+- (Eigene Skripte und Programme)
+
+. . .
+
+- Prinzip Hoffnung
+
+## Wann sollte Avram nicht verwendet werden?
+
+::: {.incremental}
+
+- Kein MARC oder PICA im Einsatz
+
+- Was ich nicht weiß, macht mich nicht heiß
+
+- Die Daten werden sowieso nicht genutzt
+
+- Qualität ist eh' egal
+
+:::
+
+# Das war's!
+
+## Weitere Informationen
+
+- https://format.gbv.de/schema/avram/specification
+
+- PICA-Formate entschlüsseln mit Avram und PicaEditor (2020)
+  <https://doi.org/10.5446/48737>
+
+<!-- Diese Folien: <https://doi.org/10.5281/zenodo.10971391> -->
+
