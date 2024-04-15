@@ -462,11 +462,13 @@ Jakob Voß
 </section>
 <section id="aufgaben-einer-schema-sprache" class="slide level2">
 <h2>Aufgaben einer Schema-Sprache</h2>
+<div>
 <ul>
-<li><p>Formale Schemas definieren Formate</p></li>
-<li><p>Gleiche Validierung mit verschiedenen Programmen</p></li>
-<li><p>Dokumentation</p></li>
+<li class="fragment"><p>Formale Schemas definieren Formate</p></li>
+<li class="fragment"><p>Gleiche Validierung mit verschiedenen Programmen</p></li>
+<li class="fragment"><p>Dokumentation</p></li>
 </ul>
+</div>
 </section>
 <section id="aufgaben-einer-schema-sprache-1" class="slide level2">
 <h2>Aufgaben einer Schema-Sprache</h2>
@@ -483,9 +485,9 @@ Jakob Voß
 </ul>
 </div>
 </section>
-<section id="beispiel-aus-marc21" class="slide level2">
-<h2>Beispiel (aus MARC21)</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href=""></a><span class="fu">{</span></span>
+<section id="beispiel-marc21" class="slide level2">
+<h2>Beispiel (MARC21)</h2>
+<div class="sourceCode" id="cb1" data-code-line-numbers="4,7,10,12,13,15"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href=""></a><span class="fu">{</span></span>
 <span id="cb1-2"><a href=""></a>  <span class="dt">"family"</span><span class="fu">:</span> <span class="st">"marc"</span><span class="fu">,</span></span>
 <span id="cb1-3"><a href=""></a>  <span class="dt">"fields"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb1-4"><a href=""></a>   <span class="dt">"245"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -511,11 +513,11 @@ Jakob Voß
 <li><p>Positionen</p></li>
 </ul>
 </section>
-<section id="beispiel-feld-aus-marc21" class="slide level2">
-<h2>Beispiel-Feld (aus MARC21)</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href=""></a><span class="fu">{</span></span>
-<span id="cb2-2"><a href=""></a>  <span class="dt">"tag"</span><span class="fu">:</span> <span class="st">"033"</span></span>
-<span id="cb2-3"><a href=""></a>  <span class="st">"label"</span><span class="er">:</span> <span class="st">"Date/Time and Place of an Event"</span><span class="fu">,</span></span>
+<section id="beispiel-feld-marc21" class="slide level2">
+<h2>Beispiel-Feld (MARC21)</h2>
+<div class="sourceCode" id="cb2" data-code-line-numbers="9,14"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href=""></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href=""></a>  <span class="dt">"tag"</span><span class="fu">:</span> <span class="st">"033"</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href=""></a>  <span class="dt">"label"</span><span class="fu">:</span> <span class="st">"Date/Time and Place of an Event"</span><span class="fu">,</span></span>
 <span id="cb2-4"><a href=""></a>  <span class="dt">"url"</span><span class="fu">:</span> <span class="st">"https://www.loc.gov/marc/bibliographic/bd033.html"</span><span class="fu">,</span></span>
 <span id="cb2-5"><a href=""></a>  <span class="dt">"subfields"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb2-6"><a href=""></a>    <span class="dt">"a"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -536,6 +538,14 @@ Jakob Voß
 <li><p>Erweiterung durch Verweis auf externe Regeln</p></li>
 <li><p>Statistik: Wie oft kommen (Unter)felder vor?</p></li>
 </ul>
+</section>
+<section id="was-kann-avram-nicht" class="slide level2">
+<h2>Was kann Avram nicht?</h2>
+<ul>
+<li><p>Datentypen (Zahl, Datum…)</p></li>
+<li><p>Wenn-dann-Regeln</p></li>
+<li><p>Interpretation des Inhalts</p></li>
+</ul>
 </section></section>
 <section>
 <section id="avram-in-der-praxis" class="title-slide slide level1 center">
@@ -555,61 +565,97 @@ Jakob Voß
 </section>
 <section id="qa-catalogue" class="slide level2">
 <h2>QA Catalogue</h2>
+<div>
 <ul>
-<li><p>Erstes Validierungstool</p></li>
-<li><p>Primär für MARC21, inzwischen auch PICA und UNIMARC</p></li>
-<li><p>Webinterface für Ergebnisse</p></li>
+<li class="fragment"><p>Erstes Validierungstool</p></li>
+<li class="fragment"><p>Primär für MARC21, inzwischen auch PICA und UNIMARC</p></li>
+<li class="fragment"><p>Backend: Analyse-Skript und Solr-Index (auch via Docker)</p></li>
+<li class="fragment"><p>Frontend: Webinterface für Ergebnisse</p></li>
 </ul>
+</div>
 </section>
 <section class="slide level2">
 
 
 <img data-src="qa-catalogue.png" class="r-stretch"></section>
-<section id="catmandu-module" class="slide level2">
-<h2>Catmandu-Module</h2>
+<section id="catmandu" class="slide level2">
+<h2>Catmandu</h2>
 <ul>
 <li><p>Kommandozeilen-Werkzeug zur Datenkonvertierung</p></li>
 <li><p><a href="https://metacpan.org/pod/Catmandu::Validator::MARC">Catmandu::Validator::MARC</a></p></li>
 <li><p><a href="https://metacpan.org/pod/Catmandu::Validator::PICA">Catmandu::Validator::PICA</a></p></li>
-<li><p><a href="https://metacpan.org/pod/PICA::Data">PICA::Data</a></p></li>
 </ul>
-<!-- TODO: Beispiel -->
+<div class="fragment">
+<ul>
+<li><p>Anwendung als Teil einer ETL-Pipeline:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource fix number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href=""></a>select valid(., MARC, schema: 'schema.json')</span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a>validate(., MARC, schema: 'schema.json')</span>
+<span id="cb3-4"><a href=""></a>if exists(errors)</span>
+<span id="cb3-5"><a href=""></a>  ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</div>
+</section>
+<section id="picadata" class="slide level2">
+<h2>picadata</h2>
+<ul>
+<li><p><a href="https://metacpan.org/pod/PICA::Data">PICA::Data</a></p></li>
+<li><p>Grundlage von Catmandu::Validator::PICA</p></li>
+<li><p>Konvertierung und Validierung von PICA+</p></li>
+<li><p>Fehler in Datensätzen auch als Annotation möglich</p></li>
+</ul>
+</section>
+<section id="beispiel" class="slide level2">
+<h2>Beispiel</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource pica number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href=""></a>003@ $012345X</span>
+<span id="cb4-2"><a href=""></a>003@ $0123      </span>
+<span id="cb4-3"><a href=""></a>021A $aEin $aBuch$hzum Lesen</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href=""></a><span class="ex">$</span> curl https://format.k10plus.de/avram.pl<span class="pp">?</span>profile=k10plus-title <span class="dt">\</span></span>
+<span id="cb5-2"><a href=""></a>  <span class="op">&gt;</span> k10plus-title.json</span>
+<span id="cb5-3"><a href=""></a><span class="ex">$</span> picadata validate <span class="at">-s</span> k10plus-title.json example.pp </span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a><span class="ex">12345X:</span> field 003@ is not repeatable</span>
+<span id="cb5-6"><a href=""></a><span class="ex">12345X:</span> invalid subfield 021A<span class="va">$a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="avram-js" class="slide level2">
 <h2>Avram-JS</h2>
 <ul>
-<li><p>Referenzimplementierung (alle Features)</p></li>
+<li><p>Referenzimplementierung (d.h. alle Features)</p></li>
 <li><p>Validierung von MARC, PICA und CSV</p></li>
+<li><p>Prüfung von Avram-Schema-Dateien (!)</p></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href=""></a><span class="ex">npm</span> install avram</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<!-- TODO: Beispiel -->
+</section>
+<section id="beispiel-1" class="slide level2">
+<h2>Beispiel</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href=""></a><span class="ex">$</span> avram <span class="at">-s</span> k10plus-title.json example.pp</span>
+<span id="cb6-2"><a href=""></a></span>
+<span id="cb6-3"><a href=""></a><span class="ex">k10plus-title.json</span> is a valid Avram 0.9.6 pica schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sh number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href=""></a><span class="ex">$</span> avram <span class="at">-f</span> pp k10plus-title.json example.pp</span>
+<span id="cb7-2"><a href=""></a></span>
+<span id="cb7-3"><a href=""></a><span class="ex">Field</span> <span class="st">'003@'</span> must not be repeated.</span>
+<span id="cb7-4"><a href=""></a><span class="ex">field</span> 021A subfield a must not be repeated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="picaeditor" class="slide level2">
 <h2>PicaEditor</h2>
+
+<img data-src="pica-editor-screenshot.png" class="r-stretch"></section>
+<section id="picaeditor-1" class="slide level2">
+<h2>PicaEditor</h2>
+<div>
 <ul>
-<li><p>Anzeige von PICA-Datensätzen mit Syntax-Highlighting und Kontexthilfe</p></li>
-<li><p>Eher Proof of Concept</p></li>
-<li><p>Problem: Pica3 vs.&nbsp;PICA+</p></li>
+<li class="fragment"><p>Anzeige von PICA-Datensätzen mit Syntax-Highlighting und Kontexthilfe</p></li>
+<li class="fragment"><p>Eher Proof of Concept</p></li>
+<li class="fragment"><p>Problem: Pica3 vs.&nbsp;PICA+</p></li>
+<li class="fragment"><p>Online-Demo ist grade kaputt</p></li>
 </ul>
-<!-- TODO: screenshot -->
+</div>
 </section></section>
 <section>
 <section id="verwandte-methoden" class="title-slide slide level1 center">
 <h1>Verwandte Methoden</h1>
 
-</section>
-<section id="was-kann-avram-nicht" class="slide level2">
-<h2>Was kann Avram nicht?</h2>
-<ul>
-<li><p>Kaffee kochen</p></li>
-<li><p>Erraten was gemeint ist</p></li>
-</ul>
-<div class="fragment">
-<ul>
-<li><p>Datentypen (Zahl, Datum…)</p></li>
-<li><p>Wenn-dann-Regeln</p></li>
-</ul>
-</div>
 </section>
 <section id="alternativen-zu-avram" class="slide level2">
 <h2>Alternativen zu Avram</h2>
@@ -623,17 +669,6 @@ Jakob Voß
 <p>Achtung: RDF/XML, MARCXML… sind nur XML-Verpackungen!</p>
 </div>
 </section>
-<section id="meist-nicht-so-gute-alternativen-zu-avram" class="slide level2">
-<h2>Meist nicht so gute Alternativen zu Avram</h2>
-<ul>
-<li>(Eigene Skripte und Programme)</li>
-</ul>
-<div class="fragment">
-<ul>
-<li>Prinzip Hoffnung</li>
-</ul>
-</div>
-</section>
 <section id="wann-sollte-avram-nicht-verwendet-werden" class="slide level2">
 <h2>Wann sollte Avram nicht verwendet werden?</h2>
 <div>
@@ -641,21 +676,29 @@ Jakob Voß
 <li class="fragment"><p>Kein MARC oder PICA im Einsatz</p></li>
 <li class="fragment"><p>Was ich nicht weiß, macht mich nicht heiß</p></li>
 <li class="fragment"><p>Die Daten werden sowieso nicht genutzt</p></li>
-<li class="fragment"><p>Qualität ist eh’ egal</p></li>
 </ul>
 </div>
-</section></section>
-<section>
-<section id="das-wars" class="title-slide slide level1 center">
-<h1>Das war’s!</h1>
-
+</section>
+<section id="zusammenfassung" class="slide level2">
+<h2>Zusammenfassung</h2>
+<div>
+<ul>
+<li class="fragment"><p>Avram gibt’s seit 5 Jahren</p></li>
+<li class="fragment"><p>Validierung und Beschreibung von MARC- und PICA-Daten (und CSV)</p></li>
+<li class="fragment"><p>Mehrere unabhängige Implementierungen und Schemas</p></li>
+<li class="fragment"><p>Außer K10plus leider keine <em>offizielle</em> Unterstützung durch Herausgeber<em>innen von Bibliographischen Formaten (</em>hello, LoC!*)</p></li>
+<li class="fragment"><p>Ausstehende Verabschiedung der Spezifikation Version 1.0.0 nur Kosmetik</p></li>
+<li class="fragment"><p>Validierung hilft, Qualität macht aber auch Arbeit</p></li>
+</ul>
+</div>
 </section>
 <section id="weitere-informationen" class="slide level2">
 <h2>Weitere Informationen</h2>
 <ul>
-<li><p>https://format.gbv.de/schema/avram/specification</p></li>
-<li><p>PICA-Formate entschlüsseln mit Avram und PicaEditor (2020) <a href="https://doi.org/10.5446/48737" class="uri">https://doi.org/10.5446/48737</a></p></li>
 <li><p>Diese Folien: <a href="https://jakobib.github.io/kim2024-avram/" class="uri">https://jakobib.github.io/kim2024-avram/</a></p></li>
+<li><p>Avram-Spezifikation <a href="https://format.gbv.de/schema/avram/specification" class="uri">https://format.gbv.de/schema/avram/specification</a></p></li>
+<li><p>PICA-Formate entschlüsseln mit Avram und PicaEditor (2020) <a href="https://doi.org/10.5446/48737" class="uri">https://doi.org/10.5446/48737</a></p></li>
+<li><p><a href="https://pro4bib.github.io/pica/">Einführung in die Verarbeitung von PICA-Daten</a></p></li>
 </ul>
 <div class="quarto-auto-generated-content">
 <p><img src="vzglogo.png" class="slide-logo"></p>

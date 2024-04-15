@@ -64,11 +64,15 @@ author: Jakob Voß
 
 ## Aufgaben einer Schema-Sprache
 
+::: {.incremental}
+
 - Formale Schemas definieren Formate
 
 - Gleiche Validierung mit verschiedenen Programmen
 
 - Dokumentation
+
+:::
 
 ## Aufgaben einer Schema-Sprache
 
@@ -88,9 +92,9 @@ author: Jakob Voß
 
 :::
 
-## Beispiel (aus MARC21)
+## Beispiel (MARC21)
 
-~~~json
+~~~{.json code-line-numbers="4,7,10,12,13,15"}
 {
   "family": "marc",
   "fields": {
@@ -118,11 +122,11 @@ author: Jakob Voß
 
 - Positionen
 
-## Beispiel-Feld (aus MARC21)
+## Beispiel-Feld (MARC21)
 
-~~~{.json}
+~~~{.json code-line-numbers="9,14"}
 {
-  "tag": "033"
+  "tag": "033",
   "label": "Date/Time and Place of an Event",
   "url": "https://www.loc.gov/marc/bibliographic/bd033.html",
   "subfields": {
@@ -147,6 +151,18 @@ author: Jakob Voß
 
 - Statistik: Wie oft kommen (Unter)felder vor?
 
+## Was kann Avram nicht?
+
+::: {.incremental}
+
+- Datentypen (Zahl, Datum...)
+
+- Wenn-dann-Regeln
+
+- Interpretation des Inhalts
+
+:::
+
 # Avram in der Praxis
 
 ## Vorhandene Avram-Schemas
@@ -158,19 +174,27 @@ author: Jakob Voß
 - PICA+ (K10plus) via [K10plus-Formatdatenbank](https://format.k10plus.de/k10plushelp.pl)
 - Anwendungsprofile
 
+# Implementierungen
+
 ## QA Catalogue
+
+::: {.incremental}
 
 - Erstes Validierungstool
 
 - Primär für MARC21, inzwischen auch PICA und UNIMARC
 
-- Webinterface für Ergebnisse
+- Backend: Analyse-Skript und Solr-Index (auch via Docker)
+
+- Frontend: Webinterface für Ergebnisse
+
+:::
 
 ---
 
 ![](qa-catalogue.png)
 
-## Catmandu-Module
+## Catmandu
 
 - Kommandozeilen-Werkzeug zur Datenkonvertierung
 
@@ -178,23 +202,77 @@ author: Jakob Voß
 
 - [Catmandu::Validator::PICA](https://metacpan.org/pod/Catmandu::Validator::PICA)
 
+. . .
+
+- Anwendung als Teil einer ETL-Pipeline:
+
+  ~~~fix
+  select valid(., MARC, schema: 'schema.json')
+
+  validate(., MARC, schema: 'schema.json')
+  if exists(errors)
+    ...
+  ~~~
+
+## picadata
+
 - [PICA::Data](https://metacpan.org/pod/PICA::Data)
 
-<!-- TODO: Beispiel -->
+- Grundlage von Catmandu::Validator::PICA
+
+- Konvertierung und Validierung von PICA+
+
+- Fehler in Datensätzen auch als Annotation möglich
+
+## Beispiel
+
+~~~pica
+003@ $012345X
+003@ $0123      
+021A $aEin $aBuch$hzum Lesen
+~~~
+
+. . .
+
+~~~sh
+$ curl https://format.k10plus.de/avram.pl?profile=k10plus-title \
+  > k10plus-title.json
+$ picadata validate -s k10plus-title.json example.pp 
+
+12345X: field 003@ is not repeatable
+12345X: invalid subfield 021A$a
+~~~
 
 ## Avram-JS
 
-- Referenzimplementierung (alle Features)
+- Referenzimplementierung (d.h. alle Features)
 
 - Validierung von MARC, PICA und CSV
 
+- Prüfung von Avram-Schema-Dateien (!)
+
+## Beispiel
+
 ~~~sh
-npm install avram
+$ avram -s k10plus-title.json example.pp
+
+k10plus-title.json is a valid Avram 0.9.6 pica schema
 ~~~
 
-<!-- TODO: Beispiel -->
+~~~sh
+$ avram -f pp k10plus-title.json example.pp
+
+Field '003@' must not be repeated.
+field 021A subfield a must not be repeated
+~~~
 
 ## PicaEditor
+
+![](pica-editor-screenshot.png)
+
+## PicaEditor
+
+::: {.incremental}
 
 - Anzeige von PICA-Datensätzen mit
   Syntax-Highlighting und Kontexthilfe
@@ -203,21 +281,11 @@ npm install avram
 
 - Problem: Pica3 vs. PICA+
 
-<!-- TODO: screenshot -->
+- Online-Demo ist grade kaputt
+
+:::
 
 # Verwandte Methoden
-
-## Was kann Avram nicht?
-
-- Kaffee kochen
-
-- Erraten was gemeint ist
-
-. . .
-
-- Datentypen (Zahl, Datum...)
-
-- Wenn-dann-Regeln
 
 ## Alternativen zu Avram
 
@@ -233,14 +301,6 @@ npm install avram
 
 Achtung: RDF/XML, MARCXML... sind nur XML-Verpackungen!
 
-## Meist nicht so gute Alternativen zu Avram
-
-- (Eigene Skripte und Programme)
-
-. . .
-
-- Prinzip Hoffnung
-
 ## Wann sollte Avram nicht verwendet werden?
 
 ::: {.incremental}
@@ -251,18 +311,36 @@ Achtung: RDF/XML, MARCXML... sind nur XML-Verpackungen!
 
 - Die Daten werden sowieso nicht genutzt
 
-- Qualität ist eh' egal
+:::
+
+## Zusammenfassung
+
+::: {.incremental}
+
+- Avram gibt's seit 5 Jahren
+
+- Validierung und Beschreibung von MARC- und PICA-Daten (und CSV)
+
+- Mehrere unabhängige Implementierungen und Schemas
+
+- Außer K10plus leider keine *offizielle* Unterstützung durch
+  Herausgeber*innen von Bibliographischen Formaten (*hello, LoC!*)
+
+- Ausstehende Verabschiedung der Spezifikation Version 1.0.0 nur Kosmetik
+
+- Validierung hilft, Qualität macht aber auch Arbeit
 
 :::
 
-# Das war's!
-
 ## Weitere Informationen
 
-- https://format.gbv.de/schema/avram/specification
+- Diese Folien: <https://jakobib.github.io/kim2024-avram/>
+
+- Avram-Spezifikation
+  <https://format.gbv.de/schema/avram/specification>
 
 - PICA-Formate entschlüsseln mit Avram und PicaEditor (2020)
   <https://doi.org/10.5446/48737>
 
-- Diese Folien: <https://jakobib.github.io/kim2024-avram/>
+- [Einführung in die Verarbeitung von PICA-Daten](https://pro4bib.github.io/pica/)
 
